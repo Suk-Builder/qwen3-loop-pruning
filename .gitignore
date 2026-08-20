@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.log
+*.pkl
+*.npz
+*.pt
+*.bin
+*.safetensors
+pruning_analysis/
+loop_train_v1/
+pruned_model_50pct/
+dynamic_infinite_train_v2/
