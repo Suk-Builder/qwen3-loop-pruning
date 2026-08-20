@@ -17,10 +17,10 @@ from modeling_qwen3_loop import load_model_with_loop
 MODEL_PATH = "dynamic_infinite_train_v2/final"
 OUTPUT_DIR = "./loop_train_v1"
 DATA_FILES = [
-    "/tmp/training-data/sft_final_v3_p1.jsonl",
-    "/tmp/training-data/sft_final_v3_p2.jsonl",
+    "~/data/sft_final_v3_p1.jsonl",
+    "~/data/sft_final_v3_p2.jsonl",
 ]
-ANTILOOP_FILE = "/tmp/training-data/sft_antiloop.jsonl"
+ANTILOOP_FILE = "~/data/sft_antiloop.jsonl"
 
 MAX_LENGTH = 512
 BATCH_SIZE = 2
