@@ -11,7 +11,7 @@ from modeling_qwen3_loop import load_model_with_loop
 
 # ========== 配置 ==========
 MODEL_PATH = "dynamic_infinite_train_v2/final"
-DATA_FILE = "/tmp/training-data/loop_train_data.npz"
+DATA_FILE = "~/data/loop_train_data.npz"
 OUTPUT_DIR = "./loop_train_v1"
 
 BATCH_SIZE = 2
