@@ -60,10 +60,10 @@ def build_antiloop_sample(original_messages, max_assistant_len=5000):
 
 def main():
     input_files = [
-        "/tmp/training-data/sft_final_v3_p1.jsonl",
-        "/tmp/training-data/sft_final_v3_p2.jsonl"
+        "~/data/sft_final_v3_p1.jsonl",
+        "~/data/sft_final_v3_p2.jsonl"
     ]
-    output_file = "/tmp/training-data/sft_antiloop.jsonl"
+    output_file = "~/data/sft_antiloop.jsonl"
 
     all_original = []
     for fpath in input_files:
