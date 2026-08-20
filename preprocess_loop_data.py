@@ -7,11 +7,11 @@ MODEL_PATH = "dynamic_infinite_train_v2/final"
 MAX_LENGTH = 512
 MAX_CHAR_LEN = 10000
 DATA_FILES = [
-    "/tmp/training-data/sft_final_v3_p1.jsonl",
-    "/tmp/training-data/sft_final_v3_p2.jsonl",
+    "~/data/sft_final_v3_p1.jsonl",
+    "~/data/sft_final_v3_p2.jsonl",
 ]
-ANTILOOP_FILE = "/tmp/training-data/sft_antiloop.jsonl"
-OUTPUT_FILE = "/tmp/training-data/loop_train_data.npz"
+ANTILOOP_FILE = "~/data/sft_antiloop.jsonl"
+OUTPUT_FILE = "~/data/loop_train_data.npz"
 
 print("Loading tokenizer...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
