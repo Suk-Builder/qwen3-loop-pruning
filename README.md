@@ -1,0 +1,63 @@
+# Qwen3-0.6B \u5fae\u8c03\u3001\u5faa\u73af\u6291\u5236\u4e0e\u7ed3\u6784\u5316\u526a\u679d\u5b9e\u9a8c
+
+Qwen3-0.6B fine-tuning, loop suppression via LoopAttention, and structured FFN pruning experiments.
+
+## \u5b9e\u9a8c\u80cc\u666f
+
+\u5728\u6d88\u8d39\u7ea7\u786c\u4ef6\uff08WSL + RTX 3060 12GB\uff09\u4e0a\u5bf9 Qwen3-0.6B \u8fdb\u884c\u7aef\u5230\u7aef\u6539\u9020\uff1a
+1. **SFT \u5fae\u8c03**\uff1a6000 \u6761\u5bf9\u8bdd\u6570\u636e + \u52a8\u6001\u65e0\u9650\u7ec6\u5b66\u4e60\u7387
+2. **LoopAttention**\uff1a\u6700\u540e\u4e00\u5c42\u6ce8\u5165\u5faa\u73af\u68c0\u6d4b\u95e8\uff0c\u6291\u5236\u751f\u6210\u5faa\u73af
+3. **FFN \u526a\u679d**\uff1a\u57fa\u4e8e\u6fc0\u6d3b\u9891\u7387\u5206\u6790\uff0c\u7ed3\u6784\u5316\u526a\u679d 50%+
+
+## \u811a\u672c\u6e05\u5355
+
+| \u811a\u672c | \u529f\u80fd | \u72b6\u6001 |
+|------|------|------|
+| `modeling_qwen3_loop.py` | LoopAttention \u6a21\u5757\uff08\u53ea\u6539\u7b2c27\u5c42\uff09 | \u2705 \u53ef\u7528 |
+| `train_loop_manual.py` | \u624b\u5199 DataLoader \u8bad\u7ec3\uff08\u63a8\u8350\uff09 | \u2705 \u53ef\u7528 |
+| `train_with_loop.py` | Trainer API \u7248\uff08\u6709 dataset.map OOM \u95ee\u9898\uff09 | \u26a0\ufe0f WSL \u53d7\u9650 |
+| `analyze_activation.py` | 100 \u95ee\u9898 FFN \u6fc0\u6d3b\u9891\u7387\u5206\u6790 | \u2705 \u53ef\u7528 |
+| `analyze_quick.py` | 20 \u95ee\u9898\u5feb\u901f\u5206\u6790 | \u2705 \u53ef\u7528 |
+| `prune_ffn.py` | \u7ed3\u6784\u5316\u526a\u679d 50% | \u2705 \u53ef\u7528 |
+| `test_pruned.py` | \u539f\u59cb vs \u526a\u679d\u5bf9\u6bd4\u6d4b\u8bd5 | \u2705 \u53ef\u7528 |
+| `generate_antiloop_data.py` | \u53cd\u4f8b\u6570\u636e\u6784\u9020\uff08\u91cd\u590d\u2192\u6253\u65ad\u2192\u539f\u6587\uff09 | \u2705 \u53ef\u7528 |
+| `preprocess_loop_data.py` | \u6570\u636e\u9884\u5904\u7406\uff08\u7ed5\u8fc7 dataset.map\uff09 | \u2705 \u53ef\u7528 |
+| `diag_inference.py` | \u63a8\u7406\u8bca\u65ad\u811a\u672c | \u2705 \u53ef\u7528 |
+
+## \u5feb\u901f\u5f00\u59cb
+
+```bash
+# 1. \u73af\u5883
+pip install transformers datasets torch accelerate bitsandbytes
+
+# 2. \u751f\u6210\u53cd\u4f8b\u6570\u636e
+python3 generate_antiloop_data.py
+
+# 3. FFN \u6fc0\u6d3b\u5206\u6790
+python3 analyze_activation.py
+
+# 4. \u526a\u679d
+python3 prune_ffn.py
+
+# 5. \u5bf9\u6bd4\u6d4b\u8bd5
+python3 test_pruned.py
+
+# 6. LoopAttention \u8bad\u7ec3\uff08\u63a8\u8350 AutoDL \u7b49\u7a33\u5b9a\u73af\u5883\uff09
+python3 train_loop_manual.py
+```
+
+## \u5173\u952e\u6559\u8bad
+
+- `past_key_value` \u5fc5\u987b\u7528\u5355\u6570\uff08\u5339\u914d\u7236\u7c7b\u7b7e\u540d\uff09
+- `dataset.map()` \u5728 WSL \u4e0a\u5185\u5b58\u5cf0\u503c\u4f1a OOM\uff0c\u7528\u624b\u5199 DataLoader \u7ed5\u8fc7
+- Python stdout \u7f13\u51b2\u5bfc\u81f4"\u5047\u6b7b"\u5e7b\u89c9\uff0c\u7528 `PYTHONUNBUFFERED=1`
+- FFN \u5c42\u5197\u4f59\u5ea6\u8fdc\u9ad8\u4e8e Attention \u5c42\uff0c\u4f18\u5148\u526a FFN
+
+## \u6587\u6863
+
+- [\u5b9e\u9a8c\u62a5\u544a](docs/experiment_report.md)
+- [\u8f6c\u63a5\u8868](docs/handoff_table.md)
+
+## License
+
+MIT
